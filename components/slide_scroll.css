@@ -1,0 +1,8 @@
+.mySlider::-webkit-scrollbar {
+    display: none;
+}
+
+.mySlider {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
