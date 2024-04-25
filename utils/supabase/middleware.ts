@@ -16,6 +16,8 @@ export const updateSession = async (request: NextRequest) => {
     const routes = [
       '/products',
       '/password',
+      '/slide',
+      '/swiper',
     ];
 
     const supabase = createServerClient(

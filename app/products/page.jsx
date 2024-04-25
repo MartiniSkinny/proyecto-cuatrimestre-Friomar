@@ -19,13 +19,6 @@ export default function Page() {
     useEffect(() => {
         const getData = async () => {
 
-            // para redireccionar al login
-/*             const { data: { session } } = await supabase.auth.getSession();
-
-            if (!session) {
-                router.push("/login");
-            } */
-
             const productsResult = await getProducts();
             setProducts(productsResult.products);
             setLoading(false);

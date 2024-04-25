@@ -4,11 +4,12 @@ import Slider from "../../components/Slider";
 import { getProducts, searchProducts } from '../products/actions'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { deleteProduct } from '../products/actions';
 
 export default function SliderPage() {
     const [products, setProducts] = useState(null);
     const [search, setSearch] = useState('');
-
+    const [loading, setLoading] = useState(true);
 
     //funcion que retorna una tarjeta para el producto
     //por cada caja calcular la distancia con el left
@@ -25,7 +26,7 @@ export default function SliderPage() {
         const getData = async () => {
             const productsResult = await getProducts();
             setProducts(productsResult.products);
-            // setLoading(false);
+            setLoading(false);
             if (productsResult.error) {
                 alert(productsResult.error.massage);
             }
@@ -47,13 +48,40 @@ export default function SliderPage() {
         getData()
     }
 
-    
+    //eliminar producto
+    const handleClick = async (event, product) => {
+        event.preventDefault(); // Prevenir el comportamiento por defecto del botón
+        try {
+            const response = await deleteProduct(product);
+            if (response.success) {
+                // Si la eliminación fue exitosa, actualizar el estado de los productos
+                setProducts(prevProducts => prevProducts.filter(p => p.id !== product.id));
+                alert("Producto eliminado correctamente");
+                // Puedes mostrar un mensaje de éxito si lo deseas
+                console.log(response.message);
+            } else {
+                // Si la eliminación no fue exitosa, muestra el mensaje de error
+                console.error(response.message);
+            }
+        } catch (error) {
+            console.error('Error eliminando el producto:', error);
+            // Manejar el error, como mostrar un mensaje de error al usuario
+        }
+    };
+
+    //mensaje cargando
+    if (loading) {
+        return <div className="flex items-center justify-center h-screen text-xl">
+            Cargando...
+        </div>
+    }
+
     return (
         <div className="items-center py-14 px-4 w-full">
             <div className="mt-1 flex justify-center">
 
                 <form
-                    className="mb-14"
+                    className="mb-16"
                     onChange={handleSearch}>
                     <div
                         className='flex items-center justify-center text-2xl font-bold mb-6 text-sky-400'>
@@ -75,12 +103,39 @@ export default function SliderPage() {
                         >
                             <a href="/products/add">Agregar Producto</a>
                         </button>
+
                     </div>
+                    {/* Separador */}
+                    <div className="absolute inset-x-0 top-50 mt-12 border-t-4 border-gray"></div>
+                    <div
+                        className='flex items-center justify-center text-lg font-medium mt-24 text-white-400'>
+                        Todas las refacciones
+                    </div>
+                    <Link
+                        href="../"
+                        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
+                        >
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>{" "}
+                        Salir
+                    </Link>
                 </form>
 
             </div>
             <Slider
-                height={700}
+                height={540}
                 itemWidth={360} // Ajustado al ancho máximo de las tarjetas originales (max-w-sm)
                 items={products?.map((product) => (
 

@@ -28,6 +28,13 @@ export default async function Index() {
         </div>
       </nav>
 
+      <button
+        className="py-3 px-4 md:px-3 rounded-full text-lg md:text-xl font-bold text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 flex items-center justify-center text-center group shadow-md hover:shadow-lg transition duration-300"
+        style={{ minWidth: "80px" }} // Reduje el ancho mínimo a 80px
+      >
+        <a href="../slide" className="flex-grow px-2">Acceder al Administrador de refacciones Taller FRIOMAR</a>
+      </button>
+
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
         <Header />
         <main className="flex-1 flex flex-col gap-6">

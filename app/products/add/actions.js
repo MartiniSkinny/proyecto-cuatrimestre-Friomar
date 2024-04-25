@@ -32,19 +32,23 @@ export async function addProduct(product) {
         }
     }
 
-  /*  if (!product.image) {
-        errorsList.image = "La imagen es obligatoria";
+    // validar category
+    if (!product.category) {
+        errorsList.category = "La categoría es obligatoria";
     }
-
-    // Si hay errores en los datos, retornarlos
-    if ( Object.keys(errorsList).length > 0) {
-        return {
-            success: false,
-            message: 'Ingresar los datos correctamente',
-            errors: errorsList,
-        };
-    }
-*/
+    /*  if (!product.image) {
+          errorsList.image = "La imagen es obligatoria";
+      }
+  
+      // Si hay errores en los datos, retornarlos
+      if ( Object.keys(errorsList).length > 0) {
+          return {
+              success: false,
+              message: 'Ingresar los datos correctamente',
+              errors: errorsList,
+          };
+      }
+  */
 
     // Insertar el producto en la base de datos
     const cookieStore = cookies();
@@ -80,7 +84,7 @@ export async function convertirYSubirImagen(req, res) {
     // Subir imagen a Supabase
     try {
         // Subir imagen a Supabase Storage
-        upload(req, res, async function(err) {
+        upload(req, res, async function (err) {
             if (err) {
                 console.error('Error al subir la imagen:', err);
                 return res.status(500).json({ error: 'Error al subir la imagen' });
